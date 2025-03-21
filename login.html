@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!-- 头部区域 - 包含元数据和样式表 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>专业移动端登录界面</title>
+    <style>
+/* 全局样式定义 */
+        :root {
+            --primary: #4A90E2;
+            --secondary: #7ED321;
+            --gradient-start: #6A11CB;
+            --gradient-end: #2575FC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 页面主体 - 渐变背景与弹性布局 */
+body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* 登录卡片容器 - 玻璃拟态效果 */
+.login-card {
+            background: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        /* 输入框组 - 包含错误状态处理 */
+.input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        /* 为.options类下的label元素设置样式 */
+        .options label {
+            /* 使用flex布局 */
+            display: inline-block;
+            /* 子元素在主轴上两端对齐 */
+            justify-content: space-between;
+            /* 子元素在交叉轴上居中对齐 */
+            align-items: center;
+            /* 设置上下外边距为10px，左右外边距为0 */
+            margin: 10px 0;
+            /* 设置字体大小为14px */
+            font-size: 14px;
+        }
+
+        .checkbox-wrapper {
+            display: flex; /* 将内部容器设置为 Flexbox */
+            align-items: center; /* 垂直居中对齐 */
+            gap: 8px; /* 设置勾选框和文字之间的间距 */
+        }
+
+        .checkbox-wrapper span {
+            font-family: Arial, sans-serif; /* 使用常见字体 */
+            min-width: 100px; /* 设置最小宽度，避免文字换行 */
+        }
+
+
+        /* 输入框基础样式 - 包含聚焦动画 */
+input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+            outline: none;
+        }
+
+        /* 密码显示切换按钮 - 绝对定位 */
+.password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* 登录按钮 - 包含按压动效 */
+.login-btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* 选项区域 - 灵活布局适配 */
+/* 选项区域 - 灵活布局适配 */
+/* 使用Flexbox布局 */
+.options {
+    /* 设置为Flex容器 */
+    display: flex;
+    /* 子元素在主轴上两端对齐 */
+    justify-content: space-between;
+    /* 子元素不换行 */
+    flex-wrap: nowrap;
+    /* 设置上下外边距为10px，左右外边距为0 */
+    margin: 10px 0;
+    /* 设置字体大小为14px */
+    font-size: 14px;
+    /* 子元素在交叉轴上居中对齐 */
+    align-items: center;
+}
+
+        /* 设计规范面板 - 固定定位说明 */
+.design-panel {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 280px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #333;">用户登录</h2>
+        
+        <div class="input-group">
+            <div>用户名：</div>
+            <input type="text" placeholder="请输入账号" required>
+        </div>
+
+        <div class="input-group">
+            <div>密码：</div>
+            <input type="password" placeholder="请输入密码" id="password" required>
+            <span class="password-toggle" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <div class="options">
+            <div class="checkbox-wrapper">
+                <input type="checkbox">
+                <span>记住我</span>
+            </div>
+            <a href="#" style="color: var(--primary);">忘记密码？</a>
+        </div>
+
+        <button class="login-btn" onclick="login()">立即登录</button>
+
+        <p style="text-align: center; margin-top: 20px;">
+            没有账号？ <a href="#" style="color: var(--secondary);">立即注册</a>
+        </p>
+    </div>
+
+    <!-- 设计说明面板 -->
+    <!-- 设计规范说明面板 -->
+<div class="design-panel">
+  <!-- 
+  设计规范说明：
+  1. 使用Flexbox实现完美居中布局
+  2. CSS变量管理主题色系
+  3. 移动优先的响应式适配方案
+  4. 交互动效增强用户体验
+  -->
+        <h3>设计规范说明</h3>
+        <ul style="list-style: none; margin-top: 15px;">
+            <li>📐 布局：Flexbox居中布局</li>
+            <li>🎨 主色：<div class="color-box" style="background: #4A90E2;"></div></li>
+            <li>🖌️ 渐变色：<div class="color-box" style="background: linear-gradient(135deg, #6A11CB, #2575FC);"></div></li>
+            <li>🖱️ 交互：按钮按压动效、输入框聚焦动画</li>
+            <li>📱 适配：Viewport响应式布局</li>
+        </ul>
+    </div>
+
+    <script>
+        // 切换密码可见性功能
+function togglePassword() {
+            const passwordField = document.getElementById('password');
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        }
+
+        // 登录验证逻辑（前端基础验证）
+function login() {
+            const inputs = document.querySelectorAll('input[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value) {
+                    input.style.borderColor = '#ff4444';
+                    isValid = false;
+                    setTimeout(() => input.style.borderColor = '#eee', 1000);
+                }
+            });
+
+            if (isValid) {
+                // 模拟登录成功动画
+                document.querySelector('.login-card').style.transform = 'translateZ(20px)';
+                setTimeout(() => alert('登录成功！'), 300);
+            }
+        }
+    </script>
+</body>
+</html>
